@@ -1,0 +1,149 @@
+<html>
+        <head>
+          <title>Product List</title>
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+          <style>
+            body {
+              font-family: 'Arial', sans-serif;
+              margin: 20px;
+              background-color: black;
+              color: white;
+              display: flex;
+            }
+
+            h1 {
+              color: #17a2b8;
+            }
+
+            ul {
+              list-style-type: none;
+              padding: 0;
+              margin: 0;
+            }
+
+            li {
+              margin: 5px 0;
+              cursor: pointer;
+              position: relative;
+              transition: background-color 0.3s;
+            }
+
+            li:hover {
+              background-color: #343a40;
+            }
+
+            .product-details {
+              display: none;
+              position: absolute;
+              top: 0;
+              left: 100%;
+              background-color: #343a40;
+              border: 1px solid #495057;
+              padding: 10px;
+              z-index: 1;
+              width: 250px;
+              transition: opacity 0.3s ease-in-out;
+            }
+
+            li:hover .product-details {
+              display: block;
+              opacity: 1;
+            }
+
+            .product-table {
+              width: 70%;
+              border-collapse: collapse;
+              margin-right: 20px;
+              border: 1px solid #ddd;
+              background-color: #343a40;
+              opacity: 0;
+              animation: fadeIn 1s ease-out forwards;
+            }
+
+            @keyframes fadeIn {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: 1;
+              }
+            }
+
+            th, td {
+              border: 1px solid #ddd;
+              padding: 12px;
+              text-align: left;
+            }
+
+            th {
+              background-color: #495057;
+            }
+
+            tr:nth-child(even) {
+              background-color: #495057; 
+            }
+
+            tr:hover {
+              background-color: #343a40; 
+            }
+
+            .additional-details {
+              width: 30%;
+              background-color: #343a40; 
+              padding: 10px;
+              opacity: 0;
+              animation: fadeInRight 1s ease-out forwards;
+            }
+
+            @keyframes fadeInRight {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: 1;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Product List</h1>
+          
+          <ul id="productList">
+            ${sortedProducts.map(product => `<li onmouseenter="showProductDetails(this, '${product.title}', '${product.price}', '${product.popularity}', '${product.subcategory}')" onmouseleave="hideProductDetails(this)">
+                                              ${product.title}
+                                              <div class="product-details">
+                                                <div>Price: $${product.price}</div>
+                                                <div>Popularity: ${product.popularity}</div>
+                                                <div>Subcategory: ${product.subcategory}</div>
+                                              </div>
+                                            </li>`).join('')}
+          </ul>
+  
+          <div class="additional-details">
+            Hover over a product to view details
+          </div>
+        </body>
+        <script>
+          function showProductDetails(element, title, price, popularity, subcategory) {
+            const productDetails = element.querySelector('.product-details');
+            productDetails.style.display = 'block';
+
+            const additionalDetails = document.querySelector('.additional-details');
+            additionalDetails.innerHTML = '';
+            const details = document.createElement('div');
+            details.innerHTML = '<div>Title: ' + title + '</div>' +
+  '<div>Price: $' + price + '</div>' +
+  '<div>Popularity: ' + popularity + '</div>' +
+  '<div>Subcategory: ' + subcategory + '</div>';
+
+            additionalDetails.appendChild(details);
+          }
+
+          function hideProductDetails(element) {
+            const productDetails = element.querySelector('.product-details');
+            productDetails.style.display = 'none';
+            const additionalDetails = document.querySelector('.additional-details');
+            additionalDetails.innerHTML = 'Hover over a product to view details';
+          }
+        </script>
+      </html>
